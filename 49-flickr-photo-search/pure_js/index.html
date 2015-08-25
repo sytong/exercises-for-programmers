@@ -18,21 +18,21 @@
     <div id="images"></div>
   </body>
   <script language="javascript" type="text/javascript">
-    <!-- http://www.nekman.se/cors-jsonp-promises/ -->
-    function jsonp(url, callback) {
+    <!-- based on http://www.nekman.se/cors-jsonp-promises/ -->
+    function jsonp(url) {
       var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
-      window[callbackName] = function(data) {
-        delete window[callbackName];
-        document.body.removeChild(script);
-        callback(data);
-      };
-
       var script = document.createElement('script');
       script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
       document.body.appendChild(script);
+
+      // this function is invoked automatically once a response from flickrs is received
+      jsonFlickrFeed = function(data) {
+        document.body.removeChild(script);
+        flickrFeed(data);
+      }
     }
     
-    function jsonFlickrFeed(data) {
+    function flickrFeed(data) {
       var images = document.getElementById("images");
 
       var search_term = document.getElementsByName("search_term")[0];
@@ -70,9 +70,7 @@
         }
         url = url + "&tags=" + encodeURIComponent(search_term.value);
       }
-      jsonp(url, function(data) {
-        console.log("Data received");
-      });
+      jsonp(url);
     }
   </script>  
 </html>
