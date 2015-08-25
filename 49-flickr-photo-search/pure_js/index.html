@@ -1,0 +1,78 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <title>Flickr Photo Search</title>
+    <meta name="description" content="Flickr Photo Search">
+    <meta charset="utf-8">
+    <style>
+      #search_panel { padding: 0px 0px 10px 0px; }
+      .thumbnail { padding: 0px 10px 0px 0px; }
+    </style>
+  </head>
+  <body onload="loadXMLData()">
+    <div id="search_panel">
+      <input type="text" name="search_term">
+      <button type="button" name="search" onclick="loadXMLData()">Search</button>
+    </div>
+    <div id="images"></div>
+  </body>
+  <script language="javascript" type="text/javascript">
+    <!-- http://www.nekman.se/cors-jsonp-promises/ -->
+    function jsonp(url, callback) {
+      var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+      window[callbackName] = function(data) {
+        delete window[callbackName];
+        document.body.removeChild(script);
+        callback(data);
+      };
+
+      var script = document.createElement('script');
+      script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
+      document.body.appendChild(script);
+    }
+    
+    function jsonFlickrFeed(data) {
+      var images = document.getElementById("images");
+
+      var search_term = document.getElementsByName("search_term")[0];
+      if (search_term.value) {
+        var title = document.getElementsByName("h2");
+        if (title.length == 0) {
+          title = document.createElement("h2");
+        }
+        else {
+          title = title[0];
+          title.removeChild(title.firstChild);
+        }
+        var node = document.createTextNode("Photos about \"" + search_term.value + "\"");
+        title.appendChild(node);
+        images.appendChild(title);
+      }
+
+      data.items.forEach(function(obj) {
+        var span = document.createElement("span");
+        span.className = "thumbnail";
+        var img = document.createElement("img");
+        img.src = obj.media.m;
+        span.appendChild(img);
+        images.appendChild(span);
+      });
+    }
+
+    function loadXMLData() {
+      var url = "https://api.flickr.com/services/feeds/photos_public.gne?format=json";
+      var search_term = document.getElementsByName("search_term")[0];
+      if (search_term.value) {
+        var images = document.getElementById("images");
+        while (images.firstChild) {
+          images.removeChild(images.firstChild);
+        }
+        url = url + "&tags=" + encodeURIComponent(search_term.value);
+      }
+      jsonp(url, function(data) {
+        console.log("Data received");
+      });
+    }
+  </script>  
+</html>
