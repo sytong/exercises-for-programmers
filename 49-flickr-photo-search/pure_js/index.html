@@ -25,7 +25,7 @@
       script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
       document.body.appendChild(script);
 
-      // this function is invoked automatically once a response from flickrs is received
+      // this function is invoked automatically once a response from flickr is received
       jsonFlickrFeed = function(data) {
         document.body.removeChild(script);
         flickrFeed(data);
