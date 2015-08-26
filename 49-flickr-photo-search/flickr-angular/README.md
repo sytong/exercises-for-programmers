@@ -10,7 +10,7 @@ The solution here is based on [this blog post](http://www.bennadel.com/blog/2610
 The JSON data returned from a JSONP request are directly evaulated. The key difference here is that if `callback` is used as the parameter name, the json returned will look like this:
 ```
 jsonFlickrFeed({
-  /* code skipped */
+  /* data skipped */
 })
 ```
 In this case, the browser will look for the `jsonFlickrFeed` function at the global scope.
