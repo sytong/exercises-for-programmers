@@ -1,0 +1,15 @@
+{
+  "name": "flickr-angular",
+  "description": "Simple Flickr photo search using AngularJS",
+  "version": "0.0.0",
+  "homepage": "https://github.com/sytong/exercises-for-programmers/tree/master/49-flickr-photo-search/flickr-angular",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.4.0",
+    "angular-route": "~1.4.0",
+    "angular-loader": "~1.4.0",
+    "angular-mocks": "~1.4.0",
+    "angular-resource": "~1.4.0"
+  }
+}
