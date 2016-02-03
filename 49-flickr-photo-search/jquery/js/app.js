@@ -1,7 +1,8 @@
 $(document).ready(function(){
   var url = "https://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
   var $images = $('#images');
-  var $searchTerm = $('#search-panel > input');
+  var $tags = $('#search-panel > input');
+  var $tagMode = $('#search-panel > .selectpicker');
   var $search = $('#search');
 
   var flickr = function(tags, tagMode, loadImage) {
@@ -25,7 +26,7 @@ $(document).ready(function(){
     for (var i=0; i<5; i++) {
       var $row = $('<div class="row">').appendTo($images);
       for (var j=0; j<4; j++) {
-        var $col = $('<div class="col-md-3">').appendTo($row);
+        var $col = $('<div class="col-lg-3">').appendTo($row);
         var $a = $('<a href="#" class="thumbnail">').appendTo($col);
         $a.append($('<img>').attr('src', data.items[i * 4 + j].media.m))
       }
@@ -33,6 +34,6 @@ $(document).ready(function(){
   };
 
   $search.on('click', function(){
-    flickr($searchTerm.val(), "all", addImages);
+    flickr($tags.val(), $tagMode.val(), addImages);
   });
 });
